@@ -2,9 +2,14 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"path"
+	"strconv"
 )
+
+const MIN = 0
+const MAX = 94
 
 type Entry struct {
 	Name    string
@@ -16,7 +21,7 @@ var data = []Entry{}
 
 func search(key string) *Entry {
 	for i, v := range data {
-		if v.Surname == key {
+		if v.Tel == key {
 			return &data[i]
 		}
 	}
@@ -27,6 +32,36 @@ func list() {
 	for _, v := range data {
 		fmt.Println(v)
 	}
+}
+
+func populate(n int, s []Entry) {
+	for i := 0; i < n; i++ {
+		name := getString(4)
+		surname := getString(5)
+		n := strconv.Itoa(random(100, 199))
+		data = append(data, Entry{name, surname, n})
+	}
+}
+
+func getString(len int64) string {
+	temp := ""
+	startChar := "!"
+	var i int64 = 1
+
+	for {
+		myRand := random(MIN, MAX)
+		newChar := string(startChar[0] + byte(myRand))
+		temp = temp + newChar
+		if i == len {
+			break
+		}
+		i++
+	}
+	return temp
+}
+
+func random(min, max int) int {
+	return rand.Intn(max-min) + min
 }
 
 func main() {
